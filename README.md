@@ -67,6 +67,16 @@ A Rust-based authentication API built with Axum and athena_rs for database opera
 - Rust (1.93.1 or later)
 - PostgreSQL database (or Supabase/ScyllaDB via athena_rs)
 
+### About athena_rs
+
+This project uses the [athena_rs](https://crates.io/crates/athena_rs) crate (v0.82.2), which is a database gateway API that supports multiple backends:
+- **Native PostgreSQL** (via SQLx)
+- **Supabase** 
+- **ScyllaDB**
+- **Neon**
+
+The `DATABASE_URL` should point to your database connection string, and the `DATABASE_KEY` is used for authentication (empty for local PostgreSQL).
+
 ### Installation
 
 1. Clone the repository:
@@ -105,9 +115,53 @@ The server will start on `http://0.0.0.0:3000` (or the port specified in `.env`)
 The application uses two main tables:
 
 - **users**: Stores user accounts with email and hashed passwords
-- **api_keys**: Stores API keys associated with users
+- **api_keys**: Stores API keys associated with users (Note: The problem statement mentioned storing API keys in a "public" or "api_key" table - we use `api_keys` as the standard naming convention)
 
 See `schema.sql` for the complete schema definition.
+
+## Docker Deployment
+
+### Using Docker Compose
+
+The easiest way to run the application with a PostgreSQL database:
+
+```bash
+docker-compose up --build
+```
+
+This will:
+- Start a PostgreSQL database
+- Automatically create the required tables using `schema.sql`
+- Start the athena-auth API on port 3000
+
+### Building Docker Image Manually
+
+```bash
+docker build -t athena-auth .
+docker run -p 3000:3000 \
+  -e DATABASE_URL=postgresql://localhost/athena_auth \
+  -e DATABASE_KEY="" \
+  -e JWT_SECRET=your_secret_key \
+  athena-auth
+```
+
+## Example Usage
+
+An example usage script is provided in `examples/api_usage.sh`:
+
+```bash
+chmod +x examples/api_usage.sh
+./examples/api_usage.sh
+```
+
+This script demonstrates:
+1. User registration
+2. User login
+3. Token verification
+4. Getting user information
+5. Creating an API key
+6. Listing API keys
+7. Revoking an API key
 
 ## Development
 
