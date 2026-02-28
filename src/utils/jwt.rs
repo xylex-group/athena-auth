@@ -3,7 +3,8 @@ use crate::models::auth::Claims;
 use std::env;
 
 pub fn create_jwt(user_id: &str, email: &str) -> Result<String, jsonwebtoken::errors::Error> {
-    let secret = env::var("JWT_SECRET").unwrap_or_else(|_| "your-secret-key".to_string());
+    let secret = env::var("JWT_SECRET")
+        .expect("JWT_SECRET environment variable must be set");
     let expiration = chrono::Utc::now()
         .checked_add_signed(chrono::Duration::hours(24))
         .expect("valid timestamp")
@@ -20,7 +21,8 @@ pub fn create_jwt(user_id: &str, email: &str) -> Result<String, jsonwebtoken::er
 }
 
 pub fn verify_jwt(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
-    let secret = env::var("JWT_SECRET").unwrap_or_else(|_| "your-secret-key".to_string());
+    let secret = env::var("JWT_SECRET")
+        .expect("JWT_SECRET environment variable must be set");
     let token_data = decode::<Claims>(
         token,
         &DecodingKey::from_secret(secret.as_bytes()),
