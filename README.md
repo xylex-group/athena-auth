@@ -6,6 +6,8 @@ A Rust-based authentication API built with Axum and athena_rs for database opera
 
 - **User Authentication**: Register, login, and JWT-based authentication
 - **API Key Management**: Create, list, and revoke API keys
+- **Web Admin Portal**: Modern web interface for managing users and API keys
+- **OpenAPI Documentation**: Complete API specification in OpenAPI 3.0 format
 - **Secure Password Handling**: Bcrypt password hashing
 - **JWT Tokens**: JSON Web Token authentication with configurable expiration
 - **Database Abstraction**: Uses athena_rs for database operations (supports PostgreSQL, Supabase, ScyllaDB)
@@ -59,6 +61,52 @@ A Rust-based authentication API built with Axum and athena_rs for database opera
 
 - `DELETE /auth/api-keys/:id` - Revoke an API key
   - Headers: `Authorization: Bearer <token>`
+
+## Web Admin Portal
+
+The application includes a modern web-based admin portal for managing authentication and API keys.
+
+### Access the Admin Portal
+
+After starting the server, access the admin portal at:
+```
+http://localhost:3000/admin/
+```
+
+### Features
+
+- **User Authentication**: Login with your email and password
+- **Dashboard**: View your user information and account details
+- **API Key Management**: 
+  - Create new API keys with optional expiration dates
+  - View all your API keys with status and usage information
+  - Revoke API keys you no longer need
+- **Responsive Design**: Works on desktop and mobile devices
+- **Secure**: All operations require JWT authentication
+
+### Screenshots
+
+The admin portal provides:
+1. A login page for user authentication
+2. A registration page for new users
+3. A dashboard showing user information
+4. An API key management interface with create/list/revoke capabilities
+
+## OpenAPI Documentation
+
+The API is fully documented using OpenAPI 3.0 specification. You can access the OpenAPI specification at:
+```
+http://localhost:3000/openapi.yaml
+```
+
+The OpenAPI specification includes:
+- All API endpoints with detailed descriptions
+- Request and response schemas
+- Authentication requirements
+- Example requests and responses
+- Error response formats
+
+You can use this specification with tools like Swagger UI, Postman, or any OpenAPI-compatible tool to explore and test the API.
 
 ## Setup
 
