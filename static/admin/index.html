@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athena Auth - Admin Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="container">
+                <div class="card login-card">
+                    <h1>Athena Auth</h1>
+                    <h2>Admin Portal</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        </div>
+                        <div id="login-error" class="error-message"></div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <div class="register-link">
+                        <p>Don't have an account? <a href="#" id="show-register">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page hidden">
+            <div class="container">
+                <div class="card login-card">
+                    <h1>Athena Auth</h1>
+                    <h2>Register</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" name="email" required placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" name="password" required placeholder="Enter your password">
+                        </div>
+                        <div id="register-error" class="error-message"></div>
+                        <div id="register-success" class="success-message"></div>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                    <div class="register-link">
+                        <p>Already have an account? <a href="#" id="show-login">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page hidden">
+            <nav class="navbar">
+                <div class="navbar-content">
+                    <h1>Athena Auth - Admin Portal</h1>
+                    <div class="navbar-actions">
+                        <span id="user-email" class="user-email"></span>
+                        <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Dashboard</h2>
+                    <button id="refresh-btn" class="btn btn-secondary">Refresh</button>
+                </div>
+
+                <!-- User Info Card -->
+                <div class="card">
+                    <h3>User Information</h3>
+                    <div class="user-info">
+                        <div class="info-row">
+                            <span class="info-label">User ID:</span>
+                            <span id="user-id" class="info-value"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span id="user-email-detail" class="info-value"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Account Created:</span>
+                            <span id="user-created" class="info-value"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Keys Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>API Keys</h3>
+                        <button id="create-key-btn" class="btn btn-primary">Create New API Key</button>
+                    </div>
+                    <div id="api-keys-list" class="api-keys-list">
+                        <div class="loading">Loading API keys...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create API Key Modal -->
+        <div id="create-key-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create New API Key</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <form id="create-key-form">
+                    <div class="form-group">
+                        <label for="key-name">Key Name</label>
+                        <input type="text" id="key-name" name="name" required placeholder="My API Key">
+                    </div>
+                    <div class="form-group">
+                        <label for="key-expires">Expires At (Optional)</label>
+                        <input type="datetime-local" id="key-expires" name="expires_at">
+                    </div>
+                    <div id="create-key-error" class="error-message"></div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary modal-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Show API Key Modal -->
+        <div id="show-key-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>API Key Created Successfully</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="warning-text">⚠️ Save this API key now. You won't be able to see it again!</p>
+                    <div class="key-display">
+                        <code id="new-api-key"></code>
+                    </div>
+                    <button id="copy-key-btn" class="btn btn-secondary">Copy to Clipboard</button>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary modal-close">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

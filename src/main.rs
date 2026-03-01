@@ -11,6 +11,7 @@ use axum::{
 use std::sync::Arc;
 use tower_http::cors::{CorsLayer, Any};
 use tower_http::trace::TraceLayer;
+use tower_http::services::ServeDir;
 use athena_rs::AthenaClient;
 
 pub struct AppState {
@@ -54,6 +55,10 @@ async fn main() {
         .route("/auth/login", post(handlers::auth::login))
         // Merge protected routes
         .merge(protected_routes)
+        // Serve static admin portal
+        .nest_service("/admin", ServeDir::new("static/admin"))
+        // Serve OpenAPI spec
+        .nest_service("/openapi.yaml", ServeDir::new("openapi.yaml"))
         .with_state(state)
         .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(Any))
         .layer(TraceLayer::new_for_http());
